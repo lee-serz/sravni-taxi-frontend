@@ -16,11 +16,14 @@ const TaxiPage = () => {
   const [originFocused, setOriginFocused] = useState(false);
   const [destinationFocused, setDestinationFocused] = useState(false);
 
-  const handleSearch = async () => {
+  const handleSearchSitymobil = async () => {
     setLoading(true);
     try {
-      const data = await fetchTaxiData(origin, destination);
-      setTaxis(data);
+      const response = await axios.post("https://localhost:4200/citymobil", {
+        origin,
+        destination,
+      });
+      setTaxis(response.data);
     } catch (error) {
       console.error("Error fetching taxi data:", error);
     }
@@ -56,7 +59,10 @@ const TaxiPage = () => {
           onBlur={() => setDestinationFocused(false)}
           selectTextOnFocus={false}
         />
-        <TouchableOpacity style={styles.btn_search} onPress={handleSearch}>
+        <TouchableOpacity
+          style={styles.btn_search}
+          onPress={handleSearchSitymobil}
+        >
           <Text style={styles.btn_text}>Найти такси</Text>
         </TouchableOpacity>
       </View>
@@ -69,7 +75,7 @@ const TaxiPage = () => {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <View style={styles.taxiItem}>
-              <Text>{item.name}</Text>
+              <Text>СитиМобил</Text>
               <Text>{item.price}</Text>
             </View>
           )}
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   btn_text: {
-    color: "#fff", 
+    color: "#fff",
     fontWeight: "600",
   },
   list: {
