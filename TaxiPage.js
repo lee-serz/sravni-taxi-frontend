@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+
 import {
   View,
   TextInput,
@@ -7,11 +9,12 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
+import Citymobil from "./Citymobil";
 
 const TaxiPage = () => {
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
-  const [taxis, setTaxis] = useState([]);
+  const [origin, setOrigin] = useState("Башкирская 12");
+  const [destination, setDestination] = useState("Ларина 45");
+  const [taxiPrice, setTaxiPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const [originFocused, setOriginFocused] = useState(false);
   const [destinationFocused, setDestinationFocused] = useState(false);
@@ -19,11 +22,20 @@ const TaxiPage = () => {
   const handleSearchSitymobil = async () => {
     setLoading(true);
     try {
-      const response = await axios.post("https://localhost:4200/citymobil", {
-        origin,
-        destination,
-      });
-      setTaxis(response.data);
+      const response = await axios.post(
+        "http://localhost:4200/citymobil",
+        {
+          from: origin, // Изменяем origin на from
+          to: destination, // Изменяем destination на to
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setTaxiPrice(response.data);
+      console.log(taxiPrice);
     } catch (error) {
       console.error("Error fetching taxi data:", error);
     }
@@ -66,21 +78,7 @@ const TaxiPage = () => {
           <Text style={styles.btn_text}>Найти такси</Text>
         </TouchableOpacity>
       </View>
-      {loading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <FlatList
-          style={styles.list}
-          data={taxis}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.taxiItem}>
-              <Text>СитиМобил</Text>
-              <Text>{item.price}</Text>
-            </View>
-          )}
-        />
-      )}
+      <Citymobil loading={loading} taxiPrice={taxiPrice} />
     </View>
   );
 };
