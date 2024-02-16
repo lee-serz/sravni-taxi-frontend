@@ -1,3 +1,4 @@
+// TaxiPage.js
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -6,7 +7,6 @@ import {
   TextInput,
   Text,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
 } from "react-native";
 import Citymobil from "./Citymobil";
@@ -14,19 +14,21 @@ import Citymobil from "./Citymobil";
 const TaxiPage = () => {
   const [origin, setOrigin] = useState("Башкирская 12");
   const [destination, setDestination] = useState("Ларина 45");
-  const [taxiPrice, setTaxiPrice] = useState("");
+  const [econPrice, setEconPrice] = useState("");
+  const [comfortPrice, setComfortPrice] = useState("");
+  const [comfortPlusPrice, setComfortPlusPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const [originFocused, setOriginFocused] = useState(false);
   const [destinationFocused, setDestinationFocused] = useState(false);
 
-  const handleSearchSitymobil = async () => {
+  const handleSearchСitymobil = async () => {
     setLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:4200/citymobil",
         {
-          from: origin, // Изменяем origin на from
-          to: destination, // Изменяем destination на to
+          from: origin,
+          to: destination,
         },
         {
           headers: {
@@ -34,8 +36,9 @@ const TaxiPage = () => {
           },
         }
       );
-      setTaxiPrice(response.data);
-      console.log(taxiPrice);
+      setEconPrice(response.data.econPrice);
+      setComfortPrice(response.data.comfortPrice);
+      setComfortPlusPrice(response.data.comfortPlusPrice);
     } catch (error) {
       console.error("Error fetching taxi data:", error);
     }
@@ -73,12 +76,17 @@ const TaxiPage = () => {
         />
         <TouchableOpacity
           style={styles.btn_search}
-          onPress={handleSearchSitymobil}
+          onPress={handleSearchСitymobil}
         >
           <Text style={styles.btn_text}>Найти такси</Text>
         </TouchableOpacity>
       </View>
-      <Citymobil loading={loading} taxiPrice={taxiPrice} />
+      <Citymobil
+        loading={loading}
+        econPrice={econPrice}
+        comfortPrice={comfortPrice}
+        comfortPlusPrice={comfortPlusPrice}
+      />
     </View>
   );
 };
@@ -87,8 +95,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    paddingTop: "25px",
   },
   formContainer: {
     width: "100%",
@@ -96,6 +103,7 @@ const styles = StyleSheet.create({
     padding: 25,
     alignItems: "center",
     backgroundColor: "#333",
+    borderRadius: "10px",
   },
   input: {
     width: "100%",
@@ -118,17 +126,6 @@ const styles = StyleSheet.create({
   btn_text: {
     color: "#fff",
     fontWeight: "600",
-  },
-  list: {
-    width: "100%",
-  },
-  taxiItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
   },
 });
 

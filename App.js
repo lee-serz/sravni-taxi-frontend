@@ -1,21 +1,25 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import TaxiPage from "./TaxiPage";
 
 const App = () => {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#242d39", "#10253c", "#0d0c0c"]}
+      start={{ x: 1, y: 0 }} // начало градиента в верхнем левом углу
+      end={{ x: 1, y: 1 }} // конец градиента в нижнем правом углу
+      style={styles.container}
+    >
       <TaxiPage />
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    padding: "10px",
     flex: 1,
-    backgroundColor: "#444",
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 
