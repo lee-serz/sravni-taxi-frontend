@@ -2,29 +2,45 @@
 import React from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
-const Citymobil = ({ loading, econPrice, comfortPrice, comfortPlusPrice }) => {
+const Yandex = ({ loading, econPrice, comfortPrice, comfortPlusPrice }) => {
+  const formattedEconPrice = econPrice
+    ? parseInt(econPrice.replace(/[^\d.]+/g, "").trim(), 10) + 142
+    : null;
+  const formattedComfortPrice = comfortPrice
+    ? parseInt(comfortPrice.replace(/[^\d.]+/g, "").trim(), 10) + 164
+    : null;
+
+  const formattedBuisnessPrice = comfortPrice
+    ? parseInt(comfortPrice.replace(/[^\d.]+/g, "").trim(), 10) + 241
+    : null;
   return (
     <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#fff" />
       ) : (
         <View style={styles.taxiItem}>
-          <Text style={styles.title}>СитиМобил</Text>
+          <Text style={styles.title}>YandexGo</Text>
           <View style={styles.row}>
             <View style={styles.column}>
-              {econPrice && <Text style={styles.label}>Эконом</Text>}
-              {econPrice && <Text style={styles.label_2}>{econPrice}</Text>}
-            </View>
-            <View style={styles.column}>
-              {comfortPrice && <Text style={styles.label}>Комфорт</Text>}
-              {comfortPrice && (
-                <Text style={styles.label_2}>{comfortPrice}</Text>
+              {formattedEconPrice && <Text style={styles.label}>Эконом</Text>}
+              {formattedEconPrice && (
+                <Text style={styles.label_2}>{formattedEconPrice} ₽</Text>
               )}
             </View>
             <View style={styles.column}>
-              {comfortPlusPrice && <Text style={styles.label}>Комфорт+</Text>}
-              {comfortPlusPrice && (
-                <Text style={styles.label_2}>{comfortPlusPrice}</Text>
+              {formattedComfortPrice && (
+                <Text style={styles.label}>Комфорт</Text>
+              )}
+              {formattedComfortPrice && (
+                <Text style={styles.label_2}>{formattedComfortPrice} ₽</Text>
+              )}
+            </View>
+            <View style={styles.column}>
+              {formattedBuisnessPrice && (
+                <Text style={styles.label}>Бизнес</Text>
+              )}
+              {formattedBuisnessPrice && (
+                <Text style={styles.label_2}>{formattedBuisnessPrice} ₽</Text>
               )}
             </View>
           </View>
@@ -40,7 +56,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: "rgba(0, 0, 0, 0.15)",
     borderRadius: 10,
-    marginBottom: "10px",
+    marginBottom: "20px",
   },
   row: {
     flexDirection: "row",
@@ -76,4 +92,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Citymobil;
+export default Yandex;

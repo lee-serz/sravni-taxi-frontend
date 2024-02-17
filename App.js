@@ -6,7 +6,7 @@ import TaxiPage from "./TaxiPage";
 const App = () => {
   return (
     <LinearGradient
-      colors={["#242d39", "#10253c", "#0d0c0c"]}
+      colors={["#1c212d", "#1f242f", "#222632"]}
       start={{ x: 1, y: 0 }} // начало градиента в верхнем левом углу
       end={{ x: 1, y: 1 }} // конец градиента в нижнем правом углу
       style={styles.container}
@@ -19,6 +19,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     padding: "10px",
+    paddingBottom: "0px",
     flex: 1,
   },
 });
